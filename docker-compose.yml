@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  nginx:
+    container_name: frontend
+    build:
+      context: rekeningrijden-frontend/rekeningrijden-frontend
+      dockerfile: Dockerfile
+    image: frontend:latest
+    ports:
+      - 3000:80
