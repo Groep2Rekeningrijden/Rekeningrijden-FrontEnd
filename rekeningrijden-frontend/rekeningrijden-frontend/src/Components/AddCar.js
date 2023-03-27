@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useState } from "react"
 
 function AddCar() {
+
     const handleAddCar = e => {
         // Prevent the default submit and page reload
         e.preventDefault()
@@ -29,7 +30,9 @@ function AddCar() {
                 "Content-Type": "application/json",
             }
         }).then(response => {
+            window.location.reload(false);
             console.log(response)
+            
         })
         .catch((error) => {
             if (error.response) {
