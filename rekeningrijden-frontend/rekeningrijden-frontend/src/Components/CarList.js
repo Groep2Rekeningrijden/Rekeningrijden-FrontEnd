@@ -1,33 +1,48 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { DataGrid, GridColDef, GridValueGetterParams } from '@mui/x-data-grid';
+import { Button} from 'react-bootstrap';
+function deleteCar(id) {
+    axios.delete(`http://localhost:5052/api/Car?id=` + id)
+        .then(res => {
+
+        })
+};
+
+const deleteButton = (params) => {
+
+    
+};
+
+const columns = [
+    { field: 'id', headerName: 'ID', width: 70 },
+    { field: 'name', headerName: 'Naam' },
+    { field: 'description', headerName: 'Beschrijving' },
+    { field: 'cartype.name', headerName: 'Auto type naam', valueGetter: (params) => params.row?.carType?.name },
+    { field: 'cartype.description', headerName: 'Auto type beschrijving', valueGetter: (params) => params.row?.carType?.description },
+    { field: 'carType.pricePerKilometer', headerName: 'Prijs per Km', valueGetter: (params) => params.row?.carType?.pricePerKilometer },
+    {
+        field: 'options', headerName: 'Options', sortable: false,
+        renderCell: (params) => {
+            return (
+                <Button onClick={deleteCar(params.row?.id)}>Click</Button>
+            );
+        }
+    },
+];
 
 export default class App extends Component {
     static displayName = App.name;
-    getCarTypeDescription(params) {
-        return params.carType.description;
-    }
     state = {
         cars: [],
-        columns: [
-            { field: 'id', headerName: 'ID', width: 70 },
-            { field: 'name', headerName: 'Naam', width: 130 },
-            { field: 'description', headerName: 'Beschrijving', width: 130 },
-            { field: 'cartype.name', headerName: 'Auto type naam', width: 130, valueGetter: (params) => params.row?.carType?.name },
-            { field: 'cartype.description', headerName: 'Auto type beschrijving', width: 130, valueGetter: (params) => params.row?.carType?.description },
-            { field: 'carType.pricePerKilometer', headerName: 'Prijs per Km', width: 130, valueGetter: (params) => params.row?.carType?.pricePerKilometer },
-        ],
+        columns: columns
     }
-
-    
 
     componentDidMount() {
         axios.get(`http://localhost:5052/api/Car`)
             .then(res => {
                 const cars = res.data;
                 this.setState({ cars });
-                console.log(cars);
-                console.log(this.state.cars[0].carType);
             })
     }
 
