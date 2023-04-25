@@ -12,7 +12,7 @@ const CarTable = () => {
     useEffect(() => {
         async function fetchdata(){
         setLoading(true);      
-        const response = await axios.get(`http://localhost:64861/api/Car`)
+        const response = await axios.get(`http://localhost:61309/api/Car`)
         setCars(response.data)
         setLoading(false);}
         fetchdata();
@@ -23,7 +23,7 @@ const CarTable = () => {
     }, [cars]);
 
     const deleteCar = async (e) => {
-        await axios.delete(`http://localhost:64861/api/Car?id=` + e.target.value)
+        await axios.delete(`http://localhost:61309/api/Car?id=` + e.target.value)
         setCars(cars.filter(car => car.id != e.target.value))
     }
     
