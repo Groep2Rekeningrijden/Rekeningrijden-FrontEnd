@@ -4,7 +4,7 @@ import axios from 'axios'
 import Loading from '../Loading';
 
 const RoutesTable = () => {
-    const [cars, setCars] = useState([])
+    const [routes, setRoutes] = useState([])
     const [render, setRender] = useState(<tr></tr>)
     const [loading, setLoading] = useState(true);
 
@@ -12,7 +12,7 @@ const RoutesTable = () => {
         async function fetchdata(){
         setLoading(true);      
         const response = await axios.get(`http://localhost:61309/api/Car`)
-        setCars(response.data)
+        setRoutes(response.data)
         setLoading(false);}
         fetchdata();
     }, [])
@@ -24,9 +24,7 @@ const RoutesTable = () => {
     const RenderRoute = (route, index) => {
         return (
             <tr key={index}>
-                <td>{route.date}</td>
-                <td>{route.distance}</td>
-                <td>{route.price}</td>              
+                <td>{route.priceTotal}</td>              
             </tr>
         )
     }
@@ -34,8 +32,6 @@ const RoutesTable = () => {
         <Table className="table table-hover" striped bordered>
             <thead>
                 <tr>
-                    <th>Auto</th>
-                    <th>Kilometers</th>
                     <th>Kosten</th>
                     <th></th>
                 </tr>

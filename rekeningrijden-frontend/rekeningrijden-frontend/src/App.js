@@ -1,31 +1,32 @@
 import React, { useRef, useEffect, useState, Component } from 'react';
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import CarList from './Components/CarList.js';
-import AddCar from './Components/AddCar.js';
-import MenuBar from './Components/MenuBar.js';
+import AccountPage from './Pages/AccountPage.js';
 import ManageCarPage from './Pages/ManageCarPage.js';
-import RouteMap from './Components/Route/RouteMap.js';
+import UserRouteOverviewPage from './Pages/UserRouteOverviewPage.js';
+import UserRoutePage from './Pages/UserRoutePage.js';
+import Navbar from './Components/Nav/Navbar.js';
 
 function App() {
 
     return (
-        <div>
-            <RouteMap/>
-        </div>
-        /*<BrowserRouter>
+        <BrowserRouter>
+            <Navbar />
             <Routes>
-                <Route path="/" element={<MenuBar />}>
-                    <Route index element={<ManageCarPage />} />
-                    <Route path="AddCar" element={<AddCar />} />
-                </Route>
+                <Route path="Account" element={<AccountPage />} />
+                <Route path="Cars" element={<ManageCarPage />} />
+                <Route path="RouteOverview" element={<UserRouteOverviewPage />} />
+                <Route path="Route" element={<UserRoutePage />} />
+                <Route
+                    path="*"
+                    element={
+                        <main style={{ padding: "1rem" }}>
+                            <p>There's nothing here!</p>
+                        </main>
+                    }
+                />
             </Routes>
         </BrowserRouter>
-        
-        /*<div className="App">
-            <CarList />
-            <AddCar />
-        </div>*/
     )
 }
 

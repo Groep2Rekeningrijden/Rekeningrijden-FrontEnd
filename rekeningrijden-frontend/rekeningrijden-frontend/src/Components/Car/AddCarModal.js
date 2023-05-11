@@ -23,7 +23,7 @@ function AddCarModal() {
 
     useEffect(() => {
         async function fetchdata(){ 
-        const carTypeResponse = await axios.get('http://localhost:61309/api/CarType')
+        const carTypeResponse = await axios.get('http://localhost:3306/api/CarType')
         setCarTypes(carTypeResponse.data);}
         fetchdata();
     }, [])
@@ -40,7 +40,7 @@ function AddCarModal() {
         setValidated(true)
 
         try {           
-            const response = await axios.post('http://localhost:61309/api/Car', car);
+            const response = await axios.post('http://localhost:3306/api/Car', car);
             handleClose();           
         }
         catch {
