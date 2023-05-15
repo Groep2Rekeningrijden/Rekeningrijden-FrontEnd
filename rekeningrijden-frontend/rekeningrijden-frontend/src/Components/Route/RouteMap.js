@@ -6,8 +6,10 @@ function RouteMap() {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const pluto_url = 'https://data.cityofnewyork.us/resource/64uk-42ks.json';
+        // const pluto_url = 'https://data.cityofnewyork.us/resource/64uk-42ks.json';
+        const pluto_url = 'http://localhost:5099/getById?id=fe0f9fa2-43e4-4664-93c2-f352d4c751f2';
         getData();
+
 
         async function getData() {
             let mygeojson = { "type": "Feature", "properties": {}, "geometry": { "type": "LineString", "coordinates": [] } }
@@ -16,12 +18,12 @@ function RouteMap() {
                 .then(data => {
                     let i = 0;
                     for (let point of data) {
-                        if (i < 100) {
-                            i++;
-                            mygeojson.geometry.coordinates.push([parseFloat(point.longitude), parseFloat(point.latitude)]);
-                        } else {
-                            break;
-                        }
+                        // if (i < 100) {
+                        //     i++;
+                            mygeojson.geometry.coordinates.push([parseFloat(point.lat), parseFloat(point.long)]);
+                        // } else {
+                        //     break;
+                        // }
                     }
                 });
             console.log(mygeojson);
