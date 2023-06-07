@@ -6,7 +6,7 @@ import axios from 'axios'
 import Loading from '../Loading';
 
 const RoutesTable = () => {
-    const [routes, setRoutes] = useState([])
+    /*const [routes, setRoutes] = useState([])
     const [render, setRender] = useState(<tr></tr>)
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -15,8 +15,8 @@ const RoutesTable = () => {
     useEffect(() => {
         async function fetchdata(){
         setLoading(true);      
-        const response = await axios.get(`http://localhost:5099/getAllVehicleId's`)
-        setRoutes(response.data)
+        //const response = await axios.get(`http://localhost:5099/getAllVehicleId's`)
+        //setRoutes(response.data)
         setLoading(false);}
         fetchdata();
     }, [])
@@ -47,7 +47,8 @@ const RoutesTable = () => {
                 {render}
             </tbody>
         </Table>
-    )
+    )*/
+    return "";
 }
 
 export default RoutesTable

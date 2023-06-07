@@ -7,27 +7,36 @@ const RouteMap = (props) => {
     const [isLoading, setIsLoading] = useState(true);
 
     async function getData() {
-        let mygeojson = { "type": "Feature", "properties": {}, "geometry": { "type": "LineString", "coordinates": [] } }
-        await axios.get('http://localhost:5099/getById/' + props.route.id)
-            .then(response => response.json())
-            .then(data => {
-                let i = 0;
-                for (let point of data) {
-                    // if (i < 100) {
-                    //     i++;
-                        mygeojson.geometry.coordinates.push([parseFloat(point.lat), parseFloat(point.long)]);
-                    // } else {
-                    //     break;
-                    // }
-                }
+        let data = "";
+        await axios.get('http://localhost:5054/routes/getRoute', { params: { id: "b344e30e-6a32-4c2a-b2db-beae7f97142d" } })
+            .then(resp => {
+                data = resp.data;
             });
-        console.log(mygeojson);
-        setGeoData(mygeojson);
+        let geojson = {
+            features: [{
+                type: "Feature",
+                properties: {},
+                geometry: {
+                    coordinates: [],
+                    type: "LineString",
+                },
+            }],
+            "type": "FeatureCollection"
+        }
+
+        for (let i = 0; i < data.segments.length; i++) {
+            geojson.features[0].geometry.coordinates.push([
+                data.segments[i].start.lat,
+                data.segments[i].start.lon
+            ]);
+        }
+        let geo = JSON.stringify(geojson, null, 2);
+        setGeoData(geo);
         setIsLoading(false);
     }
 
     useEffect(() => {
-if(props.route !== ''){
+        if(props.route !== ''){
             getData();
         }
     }, [props])

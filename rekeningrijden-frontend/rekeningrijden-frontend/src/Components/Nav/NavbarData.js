@@ -9,6 +9,6 @@ export const NavbarData = [
     },
     {
         title: "Ritten",
-        link: "RouteOverview"       
+        link: "Route"       
     }  
 ]
