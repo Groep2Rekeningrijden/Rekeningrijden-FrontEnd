@@ -14,10 +14,12 @@ function RouteData(props) {
 
     useEffect(() => {
         var data = props.geoData;
+        var data = JSON.parse(data);
+        console.log(data);
         const map = new mapboxgl.Map({
             container: mapContainer.current,
             style: 'mapbox://styles/mapbox/streets-v12',
-            center: [lng, lat],
+            center: data.features[0].geometry.coordinates[0],
             zoom: zoom
         });
 
@@ -28,7 +30,7 @@ function RouteData(props) {
             // data in the geojson format
             map.addSource('route', {
                 'type': "geojson",
-                'data': JSON.parse(data),
+                'data': data,
             });
             
             //const geojsonSource = map.getSource('route');

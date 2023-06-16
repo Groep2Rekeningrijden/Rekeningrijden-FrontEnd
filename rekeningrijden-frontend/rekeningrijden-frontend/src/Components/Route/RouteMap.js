@@ -6,12 +6,33 @@ const RouteMap = (props) => {
     const [data, setGeoData] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
-    async function getData() {
+    const [items, setItems] = useState([]);
+
+    useEffect(() => {
+        // Simulating fetching items from a database
+        const fetchItems = async () => {
+            try {
+                // Perform an asynchronous operation to fetch the items from the database
+                // For example, using fetch or axios
+                const response = await fetch('https://lts.oibss.nl/Routes/getRoutes');
+                const data = await response.json();
+                // Update the state with the retrieved items
+                setItems(data);
+            } catch (error) {
+                console.error('Error fetching items:', error);
+            }
+        };
+
+        fetchItems();
+    }, []);
+
+    async function getData(idtest) {
+        setIsLoading(true);
         let data = "";
-        await axios.get('http://localhost:5054/routes/getRoute', { params: { id: "b344e30e-6a32-4c2a-b2db-beae7f97142d" } })
+        await axios.get('https://lts.oibss.nl/Routes/getRoute', { params: { id: idtest } })
             .then(resp => {
                 data = resp.data;
-            });
+            });;
         let geojson = {
             features: [{
                 type: "Feature",
@@ -26,8 +47,8 @@ const RouteMap = (props) => {
 
         for (let i = 0; i < data.segments.length; i++) {
             geojson.features[0].geometry.coordinates.push([
-                data.segments[i].start.lat,
-                data.segments[i].start.lon
+                data.segments[i].start.lon,
+                data.segments[i].start.lat
             ]);
         }
         let geo = JSON.stringify(geojson, null, 2);
@@ -35,11 +56,15 @@ const RouteMap = (props) => {
         setIsLoading(false);
     }
 
-    useEffect(() => {
+    /*useEffect(() => {
         if(props.route !== ''){
             getData();
         }
-    }, [props])
+    }, [props])*/
+
+    const shoot = (idtest) => {
+        getData(idtest);
+    }
         
 
     return (
@@ -52,6 +77,9 @@ const RouteMap = (props) => {
                 (
                     <RouteData geoData={data} />
                 )}
+            {items.map((item, index) => (
+                <button onClick={() => { shoot(item.id) }}>{item.id}</button>
+            ))}
         </div>
     );
 }
