@@ -5,7 +5,8 @@ import RouteData from './RouteData';
 const RouteMap = (props) => {
     const [data, setGeoData] = useState();
     const [isLoading, setIsLoading] = useState(true);
-
+    const [price, setPrice] = useState();
+    const [selectedItem, setSelectedItem] = useState('');
     const [items, setItems] = useState([]);
 
     useEffect(() => {
@@ -45,6 +46,8 @@ const RouteMap = (props) => {
             "type": "FeatureCollection"
         }
 
+        setPrice(data.priceTotal);
+
         for (let i = 0; i < data.segments.length; i++) {
             geojson.features[0].geometry.coordinates.push([
                 data.segments[i].start.lon,
@@ -65,21 +68,39 @@ const RouteMap = (props) => {
     const shoot = (idtest) => {
         getData(idtest);
     }
+
+    const handleSelectionChange = (selectedValue) => {
+        setSelectedItem(selectedValue);
+        console.log(selectedValue);
+        getData(selectedValue);
+    };
         
 
     return (
         <div>
             <h3>Kaart:</h3>
+            
             {isLoading ?
-                (
-                    "Loading..."
-                ) :
-                (
-                    <RouteData geoData={data} />
-                )}
-            {items.map((item, index) => (
-                <button onClick={() => { shoot(item.id) }}>{item.id}</button>
-            ))}
+            (
+                <h1>Price = 0</h1>
+            ) :
+            (
+                <h1>Price = {price}</h1>
+            )}
+            {isLoading ?
+            (
+                "Loading..."
+            ) :
+            (
+                <RouteData geoData={data} />
+            )}
+            <select value={selectedItem} onChange={(e) => handleSelectionChange(e.target.value)}>
+                <option value="">Select an item</option>
+                {items.map((item, index) => (
+                    <option value={item.id} key={item.id}>{item.id}</option>
+                ))}
+            </select>
+            
         </div>
     );
 }
